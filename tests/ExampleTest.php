@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExampleTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic functional test example.
      *
@@ -13,7 +15,20 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Laravel');
+        /* $user = factory(App\User::class)->create();
+
+        $this->actingAs($user, 'api')
+            ->visit('api/user')
+            ->see($user->name); */
+
+        $user = factory(App\User::class)->create([
+            'name' => 'Jhersy Valer Bejarano',
+            'email' => 'admin@jhersy.com'
+        ]);
+
+        $this->actingAs($user, 'api')
+            ->visit('api/user')
+            ->see('Jhersy')
+            ->see('admin@jhersy.com');
     }
 }

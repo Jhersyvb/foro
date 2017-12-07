@@ -18,3 +18,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('posts/{post}', [
+    'uses' => 'PostController@show',
+    'as'   => 'posts.show'
+])->where('post', '\d+');
+
+// ->where('post', '[0-9]+');

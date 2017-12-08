@@ -1,6 +1,6 @@
 <?php
 
-class ShowPostTest extends TestCase
+class ShowPostTest extends FeatureTestCase
 {
     public function test_a_user_can_see_the_post_details()
     {
@@ -9,12 +9,13 @@ class ShowPostTest extends TestCase
             'name' => 'Jhersy Valer Bejarano'
         ]);
 
-        $post = factory(\App\Post::class)->make([
+        $post = $this->createPost([
             'title'   => 'Este es el titulo del post',
-            'content' => 'Este es el contenido del post.'
+            'content' => 'Este es el contenido del post.',
+            'user_id' => $user->id
         ]);
 
-        $user->posts()->save($post);
+        // dd(\App\User::all()->toArray(), $post->user_id);
 
         $this->visit($post->url) // posts/1990
             ->seeInElement('h1', $post->title)
@@ -48,13 +49,9 @@ class ShowPostTest extends TestCase
     function test_old_urls_are_redirected()
     {
         // Having
-        $user = $this->defaultUser();
-
-        $post = factory(\App\Post::class)->make([
+        $post = $this->createPost([
             'title' => 'Old title'
         ]);
-
-        $user->posts()->save($post);
 
         $url = $post->url;
 

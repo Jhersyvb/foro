@@ -14,5 +14,7 @@ class CommentPolicy
         // return $user->id === $comment->post->user_id;
 
         return $user->owns($comment->post);
+
+        // return $user->owns($comment->post) && !$comment->answer;
     }
 }

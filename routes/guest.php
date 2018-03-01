@@ -17,8 +17,3 @@ Route::get('login', [
 Route::post('login', [
     'uses' => 'LoginController@store'
 ]);
-
-Route::get('login/confirmation', [
-    'uses' => 'LoginController@confirm',
-    'as' => 'login_confirmation'
-]);

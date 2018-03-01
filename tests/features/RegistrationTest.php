@@ -11,14 +11,14 @@ class RegistrationTest extends FeatureTestCase
         Mail::fake();
 
         $this->visitRoute('register')
-            ->type('Jhersyvb@outlook.com', 'email')
+            ->type('hola@jhersy.com', 'email')
             ->type('Jhersyvb', 'username')
             ->type('Jhersy', 'first_name')
             ->type('Valer Bejarano', 'last_name')
             ->press('Regístrate');
 
         $this->seeInDatabase('users', [
-            'email' => 'Jhersyvb@outlook.com',
+            'email' => 'hola@jhersy.com',
             'username' => 'Jhersyvb',
             'first_name' => 'Jhersy',
             'last_name' => 'Valer Bejarano'

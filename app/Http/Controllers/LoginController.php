@@ -14,15 +14,16 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email|exists:users'
+        ]);
+
         $user = User::where('email', $request->get('email'))->first();
 
         Token::generateFor($user)->sendByEmail();
 
-        return redirect()->route('login_confirmation');
-    }
+        alert('Enviamos a tu email un enlace para que inicies sesion');
 
-    public function confirm()
-    {
-        return view('login.confirm');
+        return back();
     }
 }

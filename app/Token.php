@@ -17,12 +17,6 @@ class Token extends Model
 
     public static function generateFor(User $user)
     {
-        // return static::create([
-        //     'user_id' => $user->id,
-        //     'token' => str_random(60),
-        //     // 'ip' => request()->ip()
-        // ]);
-
         $token = new static;
 
         $token->token = str_random(60);

@@ -16,7 +16,8 @@ class PostCommentedTest extends TestCase
         ]);
 
         $author = new User([
-            'name' => 'Jhersy'
+            'first_name' => 'Jhersy',
+            'last_name' => 'Valer Bejarano'
         ]);
 
         $comment = new Comment;
@@ -25,9 +26,7 @@ class PostCommentedTest extends TestCase
 
         $notification = new PostCommented($comment);
 
-        // $this->assertInstanceOf(PostCommented::class, $notification);
-
-        $subscriber = factory(\App\User::class)->create();
+        $subscriber = new User;
 
         $message = $notification->toMail($subscriber);
 
@@ -39,7 +38,7 @@ class PostCommentedTest extends TestCase
         );
 
         $this->assertSame(
-            'Jhersy escribió un comentario en: Titulo del post',
+            'Jhersy Valer Bejarano escribió un comentario en: Titulo del post',
             $message->introLines[0]
         );
 

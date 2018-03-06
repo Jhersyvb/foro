@@ -5,7 +5,7 @@
 
     <ul>
         @foreach($posts as $post)
-            <li><a href="{{ $post->url }}">{{ $post->title }}</a></li>
+            @include('posts.item', compact('post'))
         @endforeach
     </ul>
 

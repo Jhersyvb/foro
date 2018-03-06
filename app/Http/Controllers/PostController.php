@@ -7,10 +7,24 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index(Category $category = null)
+    public function index(Category $category = null, Request $request)
     {
+        // $routeName = $request->route()->getName();
+
         $posts = Post::orderBy('created_at', 'DESC')
-            ->category($category)
+            // ->category($category)
+            // ->when($routeName != 'posts.index', function ($q) use ($routeName) {
+            //     if ($routeName == 'posts.pending') {
+            //         $q->where('pending', true);
+            //     }
+
+            //     if ($routeName == 'posts.completed') {
+            //         $q->where('pending', false);
+            //     }
+
+            //     return $q;
+            // })
+            ->scopes($this->getListScopes($category, $request))
             ->paginate();
 
         $categoryItems = $this->getCategoryItems();
@@ -35,5 +49,26 @@ class PostController extends Controller
                 'full_url' => route('posts.index', $category)
             ];
         })->toArray();
+    }
+
+    protected function getListScopes(Category $category, Request $request)
+    {
+        $scopes = [];
+
+        if ($category->exists) {
+            $scopes['category'] = [$category];
+        }
+
+        $routeName = $request->route()->getName();
+
+        if ($routeName == 'posts.pending') {
+            $scopes[] = 'pending';
+        }
+
+        if ($routeName == 'posts.completed') {
+            $scopes[] = 'completed';
+        }
+
+        return $scopes;
     }
 }

@@ -12,18 +12,6 @@ class PostController extends Controller
         // $routeName = $request->route()->getName();
 
         $posts = Post::orderBy('created_at', 'DESC')
-            // ->category($category)
-            // ->when($routeName != 'posts.index', function ($q) use ($routeName) {
-            //     if ($routeName == 'posts.pending') {
-            //         $q->where('pending', true);
-            //     }
-
-            //     if ($routeName == 'posts.completed') {
-            //         $q->where('pending', false);
-            //     }
-
-            //     return $q;
-            // })
             ->scopes($this->getListScopes($category, $request))
             ->paginate();
 

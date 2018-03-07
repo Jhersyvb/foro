@@ -29,6 +29,10 @@ class PostsListTest extends FeatureTestCase
             'name' => 'Vue.js', 'slug' => 'vue-js'
         ]);
 
+        $css = factory(Category::class)->create([
+            'name' => 'CSS', 'slug' => 'css'
+        ]);
+
         $laravelPost = factory(Post::class)->create([
             'title' => 'Post de Laravel',
             'category_id' => $laravel->id
@@ -39,14 +43,21 @@ class PostsListTest extends FeatureTestCase
             'category_id' => $vue->id
         ]);
 
+        $cssPost = factory(Post::class)->create([
+            'title' => 'Post de CSS',
+            'category_id' => $css->id
+        ]);
+
         $this->visit('/')
             ->see($laravelPost->title)
             ->see($vuePost->title)
+            ->see($cssPost->title)
             ->within('.categories', function () {
-                $this->click('Laravel');
+                $this->click('CSS');
             })
-            ->seeInElement('h1', 'Posts de Laravel')
-            ->see($laravelPost->title)
+            ->seeInElement('h1', 'Posts de CSS')
+            ->see($cssPost->title)
+            ->dontSee($laravelPost->title)
             ->dontSee($vuePost->title);
     }
 

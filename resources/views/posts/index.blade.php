@@ -3,13 +3,17 @@
 @section('content')
     <h1>{{ $category->exists ? 'Posts de ' . $category->name : 'Posts' }}</h1>
 
-    <ul>
-        @foreach($posts as $post)
-            @include('posts.item', compact('post'))
-        @endforeach
-    </ul>
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Filtros</h4>
+            {!! Menu::make(trans('menu.filters'), 'nav filters') !!}
+            <h4>Categorías</h4>
+            {!! Menu::make($categoryItems, 'nav categories') !!}
+        </div>
+        <div class="col-md-10">
+            @each('posts.item', $posts, 'post')
 
-    {{ $posts->render() }}
-
-    {!! Menu::make($categoryItems, 'nav categories') !!}
+            {{ $posts->render() }}
+        </div>
+    </div>
 @endsection

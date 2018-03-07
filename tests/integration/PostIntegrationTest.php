@@ -25,4 +25,16 @@ class PostIntegrationTest extends TestCase
             $post->fresh()->slug
         );
     }
+
+    function test_the_url_of_the_post_is_generated()
+    {
+        $user = $this->defaultUser();
+
+        $post = $this->createPost();
+
+        $this->assertSame(
+            $post->url,
+            route('posts.show', [$post, $post->slug])
+        );
+    }
 }

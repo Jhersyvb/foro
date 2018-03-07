@@ -23,7 +23,7 @@
 
     {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST']) !!}
 
-        {!! Form::textarea('comment') !!}
+        {!! Field::textarea('comment') !!}
 
         <button type="submit">Publicar comentario</button>
 

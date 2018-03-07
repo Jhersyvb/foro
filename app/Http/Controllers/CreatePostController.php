@@ -16,8 +16,6 @@ class CreatePostController extends Controller
 
     public function store(Request $request)
     {
-        // @todo: add validation
-
         $this->validate($request, [
             'title'   => 'required',
             'content' => 'required',

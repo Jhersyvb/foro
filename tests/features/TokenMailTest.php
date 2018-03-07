@@ -2,9 +2,9 @@
 
 use App\{User, Token};
 use App\Mail\TokenMail;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\DomCrawler\Crawler;
-use Illuminate\Mail\Mailable;
 
 class TokenMailTest extends FeatureTestCase
 {
@@ -27,8 +27,10 @@ class TokenMailTest extends FeatureTestCase
         // SMTP -> Mailtrap
         // API Mailtrap -> data
 
+        $token_url = route('login', ['token' => $token->token]);
+
         $this->open(new TokenMail($token))
-            ->seeLink($token->url, $token->url);
+            ->seeLink($token_url, $token_url);
     }
 
     // InteractsWithMailable

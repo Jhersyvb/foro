@@ -56,6 +56,6 @@
 
             {!! Form::close() !!}
         </div>
-        <div class="col-md-2"></div>
+        @include('posts.sidebar')
     </div>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-use App\Post;
+use App\{Post, Category};
 
 class CreatePostsTest extends FeatureTestCase
 {
@@ -12,7 +12,7 @@ class CreatePostsTest extends FeatureTestCase
 
         $this->actingAs($user = $this->defaultUser());
 
-        $category = factory(\App\Category::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         $this->visit(route('posts.create'))

@@ -1934,31 +1934,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['score', 'vote'],
     data: function data() {
         return {
             currentVote: this.vote ? parseInt(this.vote) : null,
-            currentScore: parseInt(this.score)
+            currentScore: parseInt(this.score),
+            voteInProgress: false
         };
     },
 
     methods: {
         addVote: function addVote(amount) {
-            if (this.currentVote == amount) {
-                this.currentScore -= this.currentVote;
+            this.voteInProgress = true;
 
-                axios.delete(window.location.href + '/vote');
+            if (this.currentVote == amount) {
+                this.processRequest('delete', 'vote'); // process request delete vote!
 
                 this.currentVote = null;
             } else {
-                this.currentScore += this.currentVote ? amount * 2 : amount;
-
-                axios.post(window.location.href + (amount == 1 ? '/upvote' : '/downvote'));
+                this.processRequest('post', 'vote/' + amount);
 
                 this.currentVote = amount;
             }
+        },
+        processRequest: function processRequest(method, action) {
+            var _this = this;
+
+            axios[method](this.buildUrl(action)).then(function (response) {
+                _this.currentScore = response.data.new_score;
+
+                _this.voteInProgress = false;
+            }).catch(function (thrown) {
+                alert('Ocurrió un error!');
+
+                _this.voteInProgress = false;
+            });
+        },
+        buildUrl: function buildUrl(action) {
+            return window.location.href + '/' + action;
         }
     }
 });
@@ -32209,6 +32226,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', [_c('form', [_c('button', {
     staticClass: "btn",
     class: _vm.currentVote == 1 ? 'btn-primary' : 'btn-default',
+    attrs: {
+      "disabled": _vm.voteInProgress
+    },
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -32222,6 +32242,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
     staticClass: "btn",
     class: _vm.currentVote == -1 ? 'btn-primary' : 'btn-default',
+    attrs: {
+      "disabled": _vm.voteInProgress
+    },
     on: {
       "click": function($event) {
         $event.preventDefault();

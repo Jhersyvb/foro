@@ -80,19 +80,4 @@ class Post extends Model
     {
         return Markdown::convertToHtml(e($this->content));
     }
-
-    public function getCurrentVoteAttribute()
-    {
-        if (auth()->check()) {
-            return $this->getVoteFrom(auth()->user());
-        }
-    }
-
-    public function getVoteFrom(User $user)
-    {
-        return Vote::where([
-            'user_id' => $user->id,
-            'post_id' => $this->id
-        ])->value('vote'); // +1, -1, null
-    }
 }

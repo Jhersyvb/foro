@@ -16,13 +16,9 @@
                 @endif
             </p>
 
-            <div>
-                <form>
-                    <button class="btn btn-default">+1</button>
-                    Puntuación actual: <strong id="current-score">5</strong>
-                    <button class="btn btn-default">-1</button>
-                </form>
-            </div>
+            @auth
+                <app-vote score="{{ $post->score }}" vote="{{ $post->current_vote }}"></app-vote>
+            @endauth
 
             {!! $post->safe_html_content !!}
 

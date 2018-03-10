@@ -16,9 +16,7 @@
                 @endif
             </p>
 
-            @auth
-                <app-vote score="{{ $post->score }}" vote="{{ $post->current_vote }}"></app-vote>
-            @endauth
+            <app-vote score="{{ $post->score }}" vote="{{ $post->current_vote }}"></app-vote>
 
             {!! $post->safe_html_content !!}
 

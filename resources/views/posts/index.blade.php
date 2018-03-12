@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ $category && $category->exists ? 'Posts de ' . $category->name : 'Posts' }}</h1>
+    <h1>{{ optional($category)->exists ? 'Posts de ' . $category->name : 'Posts' }}</h1>
 
     <div class="row">
         @include('posts.sidebar')
         <div class="col-md-10">
+            {!! Alert::render() !!}
+
             {!! Form::open(['method' => 'get', 'class' => 'form form-inline']) !!}
                 {!! Form::select(
                     'orden',

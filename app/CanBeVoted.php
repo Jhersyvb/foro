@@ -10,10 +10,18 @@ trait CanBeVoted
     {
         return $this->morphMany(Vote::class, 'votable');
     }
+
+    public function userVote()
+    {
+        return $this->morphOne(Vote::class, 'votable')
+            ->where('user_id', auth()->id())
+            ->withDefault();
+    }
+
     public function getCurrentVoteAttribute()
     {
         if (auth()->check()) {
-            return $this->getVoteFrom(auth()->user());
+            return $this->userVote->vote;
         }
     }
 
@@ -48,7 +56,7 @@ trait CanBeVoted
 
     protected function addVote($amount)
     {
-        $this->votes()->updateOrCreate( // votable_id, votable_type
+        $vote = $this->votes()->updateOrCreate( // votable_id, votable_type
             ['user_id' => auth()->id()],
             ['vote' => $amount]
         );

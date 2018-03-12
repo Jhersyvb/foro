@@ -3,7 +3,7 @@
 namespace Tests;
 
 use App\{Post, User};
-
+use Illuminate\Auth\AuthenticationException;
 
 trait TestsHelper
 {
@@ -38,5 +38,12 @@ trait TestsHelper
         $this->actingAs($user);
 
         return $user;
+    }
+
+    protected function handleAuthenticationExceptions()
+    {
+        $this->withExceptionHandling([
+            AuthenticationException::class
+        ]);
     }
 }

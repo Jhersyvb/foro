@@ -16,11 +16,11 @@ class ListPostController extends Controller
             ->when(auth()->check(), function ($q) {
                 $q->with(['userVote']);
             })
-            ->category($category)
+            ->fromCategory($category)
             ->scopes($this->getRouteScope($request))
             ->orderBy($orderColumn, $orderDirection)
             ->paginate()
-            ->appends($request->intersect(['orden']));
+            ->appends(array_filter($request->only(['orden'])));
 
         return view('posts.index', compact('posts', 'category'));
     }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ $category->exists ? 'Posts de ' . $category->name : 'Posts' }}</h1>
+    <h1>{{ $category && $category->exists ? 'Posts de ' . $category->name : 'Posts' }}</h1>
 
     <div class="row">
         @include('posts.sidebar')
